@@ -2,6 +2,7 @@
 
 namespace Modules\Task\Repositories;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Modules\Shared\Repositories\AbstractBaseRepository;
 use Modules\Task\Repositories\Contracts\TaskRepositoryContract;
 use Modules\Task\Models\Task;
@@ -16,8 +17,16 @@ class TaskRepository extends AbstractBaseRepository implements TaskRepositoryCon
     /**
      * @inheritDoc
      */
-    public function getByUser(int $userId): ?array
+    public function getByUserWithPagination(int $userId): LengthAwarePaginator
     {
-        return $this->model->where('user_id', $userId)->get()->toArray();
+        return $this->model->where('user_id', $userId)->paginate();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAllWithPagination(): LengthAwarePaginator
+    {
+        return $this->model->with('user')->paginate();
     }
 }

@@ -2,10 +2,11 @@
 
 namespace Modules\Shared\Repositories;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Shared\Repositories\Contracts\BaseRepositoryContract;
+use Modules\Shared\Repositories\Contracts\CollectionRepositoryContract;
 
-class AbstractBaseRepository implements BaseRepositoryContract
+class AbstractBaseRepository implements CollectionRepositoryContract
 {
     /**
      * @param Model $model
@@ -15,17 +16,17 @@ class AbstractBaseRepository implements BaseRepositoryContract
     /**
      * @inheritDoc
      */
-    public function all(): ?array
+    public function all(): Collection
     {
-        return $this->model->all()?->toArray();
+        return $this->model->all();
     }
 
     /**
      * @inheritDoc
      */
-    public function find(string $id): ?array
+    public function find(string $id): ?Model
     {
-        return $this->model->find($id)?->toArray();
+        return $this->model->find($id);
     }
 
     /**
@@ -34,5 +35,21 @@ class AbstractBaseRepository implements BaseRepositoryContract
     public function create(array $data): ?int
     {
         return $this->model->create($data)?->id;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function update(int $id, array $data): bool
+    {
+        return $this->model->find($id)->update($data);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function delete(int $id): bool
+    {
+        return $this->model->find($id)->delete();
     }
 }

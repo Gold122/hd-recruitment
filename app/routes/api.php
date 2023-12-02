@@ -23,5 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 Route::middleware('auth:sanctum')->group(function (){
-    Route::get('/tasks', [TaskController::class, 'index'])->name('task.index');
+    Route::apiResource('/tasks', TaskController::class);
 });

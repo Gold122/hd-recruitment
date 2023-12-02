@@ -21,6 +21,13 @@ class UserSeeder extends Seeder
             'role' => UserRoleEnum::ADMIN
         ]);
 
+        UserFactory::new()->create([
+            'name' => 'User',
+            'email' => 'user@example.com',
+            'password' => bcrypt('password'),
+            'role' => UserRoleEnum::USER
+        ]);
+
         $this->command->call(ImportUsersCommand::class);
     }
 }
