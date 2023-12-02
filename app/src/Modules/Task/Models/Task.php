@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace Modules\Task\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\User\Models\User;
 
 class Task extends Model
 {
@@ -14,13 +15,11 @@ class Task extends Model
         'name',
         'description',
         'user_id',
-        'status'
+        'status',
     ];
 
     /**
      * Get the user that owns the task.
-     *
-     * @return BelongsTo
      */
     public function user(): BelongsTo
     {

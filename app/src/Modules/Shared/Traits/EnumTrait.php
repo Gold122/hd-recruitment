@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Enum;
+namespace Modules\Shared\Traits;
 
 trait EnumTrait
 {
     /**
      * Return to array.
-     *
-     * @return array
      */
     public static function toArray(): array
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Interface;
+namespace Modules\Shared\Interfaces;
 
 interface EnumInterface
 {

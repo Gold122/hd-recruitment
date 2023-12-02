@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Database\Factories\TaskFactory;
 use Illuminate\Database\Seeder;
+use Modules\User\Models\User;
 
 class TaskSeeder extends Seeder
 {
@@ -12,6 +13,10 @@ class TaskSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        User::all()->each(function (User $user) {
+            TaskFactory::new()->count(3)->create([
+                'user_id' => $user->id,
+            ]);
+        });
     }
 }
