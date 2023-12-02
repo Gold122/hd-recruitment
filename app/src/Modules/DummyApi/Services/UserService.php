@@ -2,17 +2,18 @@
 
 namespace Modules\DummyApi\Services;
 
+use Modules\DummyApi\Entity\UserEntity;
 use Modules\DummyApi\Repositories\Contracts\UserRepositoryContract;
 use Modules\DummyApi\Services\Interfaces\UserServiceInterface;
 
-class UserService implements UserServiceInterface
+readonly class UserService implements UserServiceInterface
 {
     /**
      * UserService constructor.
      *
      * @param UserRepositoryContract $userRepository
      */
-    public function __construct(private readonly UserRepositoryContract $userRepository) {}
+    public function __construct(private UserRepositoryContract $userRepository) {}
 
     /**
      * @inheritDoc
@@ -25,7 +26,7 @@ class UserService implements UserServiceInterface
     /**
      * @inheritDoc
      */
-    public function getUser(string $id): ?array
+    public function getUser(string $id): UserEntity
     {
         return $this->userRepository->find($id);
     }

@@ -2,6 +2,9 @@
 
 namespace Modules\DummyApi\Services\Interfaces;
 
+use Modules\DummyApi\Entity\UserEntity;
+use Modules\DummyApi\Exceptions\DummyApiException;
+
 interface UserServiceInterface
 {
     /**
@@ -16,7 +19,8 @@ interface UserServiceInterface
      *
      * @param string $id
      *
-     * @return array|null
+     * @return UserEntity
+     * @throws DummyApiException
      */
-    public function getUser(string $id): ?array;
+    public function getUser(string $id): UserEntity;
 }
