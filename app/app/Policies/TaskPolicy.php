@@ -2,17 +2,17 @@
 
 namespace App\Policies;
 
-use Modules\Tasks\Models\Task;
+use Modules\Task\Models\Task;
 use Modules\User\Models\User;
 
 class TaskPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Perform pre-authorization checks.
      */
-    public function viewAny(User $user): bool
+    public function before(User $user): ?bool
     {
-        //
+        return $user->isAdmin() ? true : null;
     }
 
     /**
@@ -20,15 +20,7 @@ class TaskPolicy
      */
     public function view(User $user, Task $task): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
-    {
-        //
+        return $user->id === $task->user_id;
     }
 
     /**
@@ -36,7 +28,7 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
-        //
+        return $user->id === $task->user_id;
     }
 
     /**
@@ -44,22 +36,6 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Task $task): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Task $task): bool
-    {
-        //
+        return $user->id === $task->user_id;
     }
 }

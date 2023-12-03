@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Modules\Task\DTO\CreateTaskDTO;
 use Modules\Task\DTO\UpdateTaskDTO;
+use Modules\Task\Models\Task;
 use Modules\Task\Services\Interfaces\TaskServiceInterface;
 
 class TaskController extends Controller
@@ -18,7 +19,10 @@ class TaskController extends Controller
     /**
      * @param TaskServiceInterface $taskService
      */
-    public function __construct(private readonly TaskServiceInterface $taskService) {}
+    public function __construct(private readonly TaskServiceInterface $taskService)
+    {
+        $this->authorizeResource(Task::class);
+    }
 
     /**
      * Display a listing of the resource.
@@ -43,19 +47,19 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id): TaskResource|JsonResponse
+    public function show(Task $task): TaskResource|JsonResponse
     {
-        return $this->taskService->show($id);
+        return $this->taskService->show($task->id);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTaskRequest $request, string $id): JsonResponse
+    public function update(UpdateTaskRequest $request, Task $task): JsonResponse
     {
         $data = [
             'user_id' => $request->user()->id,
-            'id' => $id,
+            'id' => $task->id,
             ...$request->validated()
         ];
 
@@ -65,8 +69,8 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): JsonResponse
+    public function destroy(Task $task): JsonResponse
     {
-        return $this->taskService->destroy($id);
+        return $this->taskService->destroy($task->id);
     }
 }
