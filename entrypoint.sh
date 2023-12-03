@@ -5,6 +5,7 @@ if [ ! -d "vendor" ]; then
 fi
 
 if [ -f ".env" ] && [ ! -f ".migrated" ]; then
+  php artisan key:generate
   php artisan migrate --seed
   touch .migrated
 fi
