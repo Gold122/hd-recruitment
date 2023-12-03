@@ -14,43 +14,74 @@ trait HasState
      */
     public static function bootHasState(): void
     {
-        // @todo: simplify this spaghetti code and add support to more events.
+        // @todo: add support to other eloquent events.
         static::saving(function ($model) {
-            foreach ($model->getFillable() as $fillable) {
-                if (method_exists(self::class, $fillable . 'Flow')) {
-                    $originalValue = $model->getOriginal($fillable)?->value;
-                    if ($originalValue) {
-                        $states = $model->{$fillable . 'Flow'}()[$model->getOriginal($fillable)?->value];
-                        $checkCanChangeState = self::checkCanChangeState(
-                            $states,
-                            $model->{$fillable}?->value
-                        );
-                        if (!$checkCanChangeState) {
-                            throw StateException::cannotChangeState(
-                                $fillable,
-                                $model->getOriginal($fillable)?->value,
-                                $model->{$fillable}?->value
-                            );
-                        }
-                    }
-                }
-            }
+            $model->validateStateChange();
         });
     }
 
     /**
-     * Check if the state can be changed.
+     * Validate the state change for each fillable attribute.
      *
-     * @param array $states
-     * @param string $to
-     *
-     * @return bool
+     * @return void
+     * @throws StateException
      */
-    protected static function checkCanChangeState(array $states, string $to): bool
+    protected function validateStateChange(): void
     {
-        if (!in_array($to, $states['to'])) {
-            return false;
+        foreach ($this->getFillable() as $fillable) {
+            $this->validateStateChangeForAttribute($fillable);
         }
-        return true;
+    }
+
+    /**
+     * Validate the state change for a specific fillable attribute.
+     *
+     * @param string $attribute
+     *
+     * @return void
+     * @throws StateException
+     */
+    protected function validateStateChangeForAttribute(string $attribute): void
+    {
+        if (method_exists(self::class, $attribute . 'Flow')) {
+            $originalValue = $this->getValueFromEnum($this->getOriginal($attribute));
+
+            if ($originalValue && $states = $this->{$attribute . 'Flow'}()[$originalValue]) {
+                $this->checkCanChangeState($attribute, $originalValue, $this->getValueFromEnum($this->{$attribute}), $states);
+            }
+        }
+    }
+
+    /**
+     * Get the value from an enum.
+     *
+     * @param \UnitEnum|mixed $value
+     *
+     * @return mixed
+     */
+    protected function getValueFromEnum(mixed $value): mixed
+    {
+        if ($value instanceof \UnitEnum) {
+            return $value->value;
+        }
+        return $value;
+    }
+
+    /**
+     * Check if the state can be changed for a specific attribute.
+     *
+     * @param string $attribute
+     * @param mixed|null $originalValue
+     * @param mixed|null $newValue
+     * @param array $states
+     *
+     * @return void
+     * @throws StateException
+     */
+    protected function checkCanChangeState(string $attribute, $originalValue, $newValue, array $states): void
+    {
+        if (!in_array($newValue, $states['to'])) {
+            throw StateException::cannotChangeState($attribute, $originalValue, $newValue);
+        }
     }
 }
