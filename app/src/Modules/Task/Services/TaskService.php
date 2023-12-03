@@ -49,7 +49,7 @@ readonly class TaskService implements TaskServiceInterface
     public function create(CreateTaskDTO $data): JsonResponse
     {
         $this->taskRepository->create($data->toArray());
-        return response()->json(['message' => 'Successfully created task']);
+        return response()->json(['message' => 'Successfully created task'], 201);
     }
 
     /**
