@@ -33,8 +33,8 @@ class ImportUsersCommand extends Command
         $this->withProgressBar($users, function ($user) use ($userService){
             $userInfo = $userService->getUser($user['id']);
             User::create([
-                'name' => $userInfo['firstName'].' '.$userInfo['lastName'],
-                'email' => $userInfo['email'],
+                'name' => $userInfo->name,
+                'email' => $userInfo->email,
                 'password' => bcrypt('password')
             ]);
         });

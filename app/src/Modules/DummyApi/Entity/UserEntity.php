@@ -11,10 +11,12 @@ class UserEntity extends Data
      *
      * @param string $id
      * @param string $name
+     * @param string|null $email
      */
     public function __construct(
         public string $id,
         public string $name,
+        public ?string $email
     ) {}
 
     /**
@@ -28,7 +30,8 @@ class UserEntity extends Data
     {
         return new self(
             id: $data['id'],
-            name: $data['firstName'] . ' ' . $data['lastName']
+            name: $data['firstName'] . ' ' . $data['lastName'],
+            email: $data['email'] ?? null,
         );
     }
 }

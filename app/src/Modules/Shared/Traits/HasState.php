@@ -18,17 +18,20 @@ trait HasState
         static::saving(function ($model) {
             foreach ($model->getFillable() as $fillable) {
                 if (method_exists(self::class, $fillable . 'Flow')) {
-                    $states = $model->{$fillable . 'Flow'}()[$model->getOriginal($fillable)?->value];
-                    $checkCanChangeState = self::checkCanChangeState(
-                        $states,
-                        $model->{$fillable}?->value
-                    );
-                    if (!$checkCanChangeState) {
-                        throw StateException::cannotChangeState(
-                            $fillable,
-                            $model->getOriginal($fillable)?->value,
+                    $originalValue = $model->getOriginal($fillable)?->value;
+                    if ($originalValue) {
+                        $states = $model->{$fillable . 'Flow'}()[$model->getOriginal($fillable)?->value];
+                        $checkCanChangeState = self::checkCanChangeState(
+                            $states,
                             $model->{$fillable}?->value
                         );
+                        if (!$checkCanChangeState) {
+                            throw StateException::cannotChangeState(
+                                $fillable,
+                                $model->getOriginal($fillable)?->value,
+                                $model->{$fillable}?->value
+                            );
+                        }
                     }
                 }
             }
