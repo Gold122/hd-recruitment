@@ -19,5 +19,7 @@ Route::post('/login', [UserController::class, 'login'])->name('login');
 
 Route::middleware('auth:sanctum')->group(function (){
     Route::apiResource('/tasks', TaskController::class);
-    Route::post('/users/import', [UserController::class, 'import'])->name('users.import');
+    Route::post('/users/import', [UserController::class, 'import'])
+        ->middleware('can:admin')
+        ->name('users.import');
 });

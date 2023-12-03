@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
 use App\Policies\TaskPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 use Modules\Task\Models\Task;
+use Modules\User\Models\User;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -23,6 +24,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::define('admin', function (User $user) {
+            return $user->isAdmin();
+        });
     }
 }
