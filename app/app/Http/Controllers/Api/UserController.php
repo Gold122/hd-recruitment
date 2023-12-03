@@ -15,6 +15,8 @@ use Modules\User\Services\Interfaces\UserServiceInterface;
 class UserController extends Controller
 {
     /**
+     * UserController constructor.
+     *
      * @param UserServiceInterface $userService
      */
     public function __construct(private readonly UserServiceInterface $userService) {}

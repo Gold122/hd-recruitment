@@ -15,7 +15,7 @@ class ImportUserRequest extends FormRequest
     {
         return [
             'id' => 'required|string',
-            'password' => 'required|string|min:6|max:60',
+            'password' => 'required|string|min:4|max:60',
         ];
     }
 }

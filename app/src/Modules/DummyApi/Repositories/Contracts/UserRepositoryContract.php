@@ -8,9 +8,10 @@ use Modules\DummyApi\Exceptions\DummyApiException;
 interface UserRepositoryContract
 {
     /**
-     * Get all.
+     * Get all users from dummyapi.
      *
      * @return array|null
+     * @throws DummyApiException
      */
     public function all(): ?array;
 

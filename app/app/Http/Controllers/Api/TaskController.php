@@ -17,6 +17,8 @@ use Modules\Task\Services\Interfaces\TaskServiceInterface;
 class TaskController extends Controller
 {
     /**
+     * TaskController constructor.
+     *
      * @param TaskServiceInterface $taskService
      */
     public function __construct(private readonly TaskServiceInterface $taskService)

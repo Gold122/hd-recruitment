@@ -9,6 +9,8 @@ use Modules\Shared\Repositories\Contracts\CollectionRepositoryContract;
 class AbstractBaseRepository implements CollectionRepositoryContract
 {
     /**
+     * AbstractBaseRepository constructor.
+     *
      * @param Model $model
      */
     public function __construct(protected readonly Model $model) {}

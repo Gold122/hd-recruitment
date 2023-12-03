@@ -9,6 +9,11 @@ use Modules\Task\Models\Task;
 
 class TaskRepository extends AbstractBaseRepository implements TaskRepositoryContract
 {
+    /**
+     * TaskRepository constructor.
+     *
+     * @param Task $model
+     */
     public function __construct(Task $model)
     {
         parent::__construct($model);

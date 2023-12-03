@@ -8,6 +8,14 @@ use Spatie\LaravelData\Data;
 
 class CreateTaskDTO extends Data
 {
+    /**
+     * CreateTaskDTO constructor.
+     *
+     * @param string $name
+     * @param string $description
+     * @param TaskStatusEnum $status
+     * @param int $user_id
+     */
     public function __construct(
         public string $name,
 

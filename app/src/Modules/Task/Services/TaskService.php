@@ -14,6 +14,8 @@ use Modules\User\Models\User;
 readonly class TaskService implements TaskServiceInterface
 {
     /**
+     * TaskService constructor.
+     *
      * @param TaskRepositoryContract $taskRepository
      */
     public function __construct(private TaskRepositoryContract $taskRepository) {}

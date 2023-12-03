@@ -11,6 +11,12 @@ use Spatie\LaravelData\Data;
 
 class LoginDTO extends Data
 {
+    /**
+     * LoginDTO constructor.
+     *
+     * @param string $email
+     * @param string $password
+     */
     public function __construct(
         #[Required]
         #[Email]
@@ -19,7 +25,7 @@ class LoginDTO extends Data
         #[Required]
         #[StringType]
         #[Min(4)]
-        #[Max(32)]
+        #[Max(60)]
         public string $password,
     ) {}
 }
